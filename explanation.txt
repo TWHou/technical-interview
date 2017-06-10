@@ -1,0 +1,26 @@
+Question 1:
+
+For string t to be constructed using letters in string s,
+the occurrence of each letter in t must not exceed its counterpart
+in s.
+To count the occurrence of letters, I utilize the Counter object.
+If string s contains all letters of string t, after subtracting the 
+letter count of t from letter count of s, there should not be any
+negative counts.
+
+Time Complexity:
+n = length of s, m = length of t
+Since the Counter object needs to iterate through the string to 
+count occurrence, each counter would require a linear time operation 
+(O(n+m)). Each operation on a counter element is constant time. The 
+subtract method iterate through elements in the t string counter. So 
+in the worst case, it would be linear time in respect to length of t 
+(O(m)). Finally, to check for negative count, the worst case is that 
+all letters in s are unique (O(n)).
+Combining all the above, the time complexity would be O(2n+2m) which 
+simplifies to O(n+m).
+
+Space Complexity:
+The initial input will take n, and m amount of space. If both strings 
+only contains unique letters, each counter will also take linear 
+amount of space. This means the space complexity is also O(n+m).
