@@ -1,4 +1,4 @@
-Question 1:
+== Question 1: ==
 
 For string t to be constructed using letters in string s,
 the occurrence of each letter in t must not exceed its counterpart
@@ -24,3 +24,39 @@ Space Complexity:
 The initial input will take n, and m amount of space. If both strings 
 only contains unique letters, each counter will also take linear 
 amount of space. This means the space complexity is also O(n+m).
+
+
+== Question 2: ==
+
+The rationle behind this approach is that for a string to be a 
+pallendron, its substring without the first and last character must 
+also be a pallendron. So I want to make a table indicating pallendron 
+substrings.
+Table:
+   | 0 | 1 | 2 | 3 | 4
+---+---+---+---+---+----
+ 0 | T |   |   |   |
+---+---+---+---+---+----
+ 1 |   | T |   |   |
+---+---+---+---+---+----
+ 2 |   |   | T |   |
+---+---+---+---+---+---- 
+ 3 |   |   |   | T |
+---+---+---+---+---+---- 
+ 4 |   |   |   |   | T
+
+This table needs to be filled in the order of shortest substring 
+length, so the longer substrings could referce when checking.
+Whenever a pallendron is found, if it is longer than the previous 
+substring, the max length and start index would be updated. Once the 
+table is filled, the the max length and start index would indicate 
+the longest pallendron substring.
+
+Time Complexity:
+Filling each cell of the table is constant time.
+For string length n, the number of cells need to be filled is 
+n(n+1)/2. Which simplifies to O(n^2).
+
+Space Complexity:
+For string length n, the table will take n^2 space. The input string 
+takes n space. O(n^2+n) simplifies to O(n^2).
