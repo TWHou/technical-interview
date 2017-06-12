@@ -30,4 +30,30 @@ def question2(string):
                     start = x
                     max_length = sub_length
     return string[start:start+max_length]
-    
+
+def question3(graph):
+    picked = {}
+    edges = sort_edges(graph)
+    while len(picked) < len(graph):
+        edge = edges.pop()
+        if edge[1] not in picked or edge[2] not in picked:
+            if edge[1] in picked:
+                picked[edge[1]].append((edge[2], edge[0]))
+            else:
+                picked[edge[1]] = [(edge[2], edge[0])]
+            if edge[2] in picked:
+                picked[edge[2]].append((edge[1], edge[0]))
+            else:
+                picked[edge[2]] = [(edge[1], edge[0])]
+    return picked
+
+def sort_edges(graph):
+    vertices = graph.keys()
+    edges = set()
+    for vertex in vertices:
+        for node in graph[vertex]:
+            if node[0] > vertex:
+                edges.add((node[1], vertex, node[0]))
+            else:
+                edges.add((node[1], node[0], vertex))
+    return sorted(list(edges), reverse=True)

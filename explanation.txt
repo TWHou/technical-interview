@@ -60,3 +60,24 @@ n(n+1)/2. Which simplifies to O(n^2).
 Space Complexity:
 For string length n, the table will take n^2 space. The input string 
 takes n space. O(n^2+n) simplifies to O(n^2).
+
+
+== Question 3: ==
+
+Since this is a minimum spanning tree, a greedy algorithm seems like 
+a good approach. I will keep selecting the shortest edge that 
+connects to a new vertex until all vertices have been included. 
+To get the shortest edge, I would want to construct a sorted edge 
+list. As the input is an adjacency list, the edges are listed twice. 
+Therefore I use a set to make sure I am not counting duplicates. 
+
+Time Complexity:
+When choosing edges, worst case, each edge gets visited once. O(E)
+When constructing list of edges, each vertex gets visited once. O(V)
+When sorting edges, python's sort method has efficiency of O(ElogE)
+The overall efficiency would be the major contributor O(ElogE).
+
+Space Complexity:
+As mentioned before, in an adjacency list, each edge is listed twice. 
+The edges set contains each edge once. Both are linearly relate to 
+number of edges. Therefore space complexity would be O(E).
