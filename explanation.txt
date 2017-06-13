@@ -81,3 +81,28 @@ Space Complexity:
 As mentioned before, in an adjacency list, each edge is listed twice. 
 The edges set contains each edge once. Both are linearly relate to 
 number of edges. Therefore space complexity would be O(E).
+
+
+== Question 4: ==
+
+Since the input is a BST, the least common ancestor is the node 
+that has either 1) the two test node on either side or 2) is one 
+of the test nodes.  Therefore I can use a recursive function with 
+those two conditions as base cases. If the base cases are not met, 
+the function should look for the child nodes of the root node. 
+Depending on which side the test nodes are, the function will take 
+the left or right child node as the root node and run again.
+
+Time Complexity:
+In each recursion, the function will loop through one row of the 
+matrix. Since the matrix is a adjacency matrix, the length of the 
+matrix is the number of nodes in the tree.
+In the worst case, the number of recursions will be one less than 
+the depth of the tree. Since it is not nessisary a balanced BST, 
+the depth of the tree could be the number of nodes.
+The worst case time complexity approximates to O(n^2)
+
+Space Complexity:
+Since the function does not create a new data structure. The space 
+complexity would be the original matrix, which would be O(n^2) for 
+n nodes.

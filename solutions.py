@@ -57,3 +57,40 @@ def sort_edges(graph):
             else:
                 edges.add((node[1], node[0], vertex))
     return sorted(list(edges), reverse=True)
+
+
+def question4(tree, root, n1, n2):
+    if not isinstance(tree, list):
+        return None
+    if tree == []:
+        return None
+    if not root:
+        return None
+    if root < 0 or root > len(tree):
+        return None
+    if n1 < 0 or n1 > len(tree):
+        return None
+    if n2 < 0 or n2 > len(tree):
+        return None
+    # make sure n1 is smaller than n2
+    if n1 > n2:
+        temp = n1
+        n1 = n2
+        n2 = temp
+    if n1 < root and n2 > root:
+        return root
+    if n1 == root or n2 == root:
+        return root
+    # find child nodes
+    left = None
+    right = None
+    for idx, node in enumerate(tree[root]):
+        if node == 1:
+            if idx < root:
+                left = idx
+            else:
+                right = idx
+    if n1 < root:
+        return question4(tree, left, n1, n2)
+    else:
+        return question4(tree, right, n1, n2)
