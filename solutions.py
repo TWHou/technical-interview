@@ -1,33 +1,33 @@
 from collections import Counter
 
-def question1(s, t):
-    s_count = Counter(s)
-    t_count = Counter(t)
+def questionum1(string, test):
+    s_count = Counter(string)
+    t_count = Counter(test)
     s_count.subtract(t_count)
-    for x in s_count.values():
-        if x < 0:
+    for count in s_count.values():
+        if count < 0:
             return False
     return True
 
-def question2(string):
+def questionum2(string):
     length = len(string)
     max_length = 1
     start = 0
-    table = [[False for x in string] for x in string]
-    for x in range(length):
-        table[x][x] = True
-    for x in range(length - 1):
-        if string[x] == string[x+1]:
-            table[x][x+1] = True
-            start = x
+    table = [[False for idx in string] for idx in string]
+    for idx in range(length):
+        table[idx][idx] = True
+    for idx in range(length - 1):
+        if string[idx] == string[idx+1]:
+            table[idx][idx+1] = True
+            start = idx
             max_length = 2
     for sub_length in range(3, length + 1):
-        for x in range(length - sub_length + 1):
-            end = x + sub_length - 1
-            if table[x+1][end-1] and string[x] == string[end]:
-                table[x][end] = True
+        for idx in range(length - sub_length + 1):
+            end = idx + sub_length - 1
+            if table[idx+1][end-1] and string[idx] == string[end]:
+                table[idx][end] = True
                 if sub_length > max_length:
-                    start = x
+                    start = idx
                     max_length = sub_length
     return string[start:start+max_length]
 
@@ -59,29 +59,34 @@ def sort_edges(graph):
     return sorted(list(edges), reverse=True)
 
 
-def question4(tree, root, n1, n2):
+def question4(tree, root, num1, num2):
+    if not valid_input(tree, root, num1, num2):
+        return None
+    if num1 > num2:
+        temp = num1
+        num1 = num2
+        num2 = temp
+    return lca_helper(tree, root, num1, num2)
+    
+def valid_input(tree, root, num1, num2):
+    valid = True
     if not isinstance(tree, list):
-        return None
-    if tree == []:
-        return None
+        valid = False
     if not root:
-        return None
+        valid = False
     if root < 0 or root > len(tree):
-        return None
-    if n1 < 0 or n1 > len(tree):
-        return None
-    if n2 < 0 or n2 > len(tree):
-        return None
-    # make sure n1 is smaller than n2
-    if n1 > n2:
-        temp = n1
-        n1 = n2
-        n2 = temp
-    if n1 < root and n2 > root:
+        valid = False
+    if num1 < 0 or num1 > len(tree):
+        valid = False
+    if num2 < 0 or num2 > len(tree):
+        valid = False
+    return valid
+
+def lca_helper(tree, root, num1, num2):
+    if num1 < root and num2 > root:
         return root
-    if n1 == root or n2 == root:
+    if num1 == root or num2 == root:
         return root
-    # find child nodes
     left = None
     right = None
     for idx, node in enumerate(tree[root]):
@@ -90,22 +95,21 @@ def question4(tree, root, n1, n2):
                 left = idx
             else:
                 right = idx
-    if n1 < root:
-        return question4(tree, left, n1, n2)
+    if num1 < root:
+        return lca_helper(tree, left, num1, num2)
     else:
-        return question4(tree, right, n1, n2)
+        return lca_helper(tree, right, num1, num2)
 
-def question5(ll, ele):
-    if not ll or not ele or ele == 0:
+def question5(ll_head, ele):
+    if not ll_head or not ele or ele == 0:
         return None
     if not isinstance(ele, int):
         return "Error: Second argument must be an integer."
     items = []
-    current = ll
+    current = ll_head
     while current:
         items.append(current.data)
         current = current.next
-    # ele longer the length of list
     if ele > len(items):
         return None
     return items[len(items)-ele]
