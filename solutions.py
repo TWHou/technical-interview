@@ -1,24 +1,21 @@
 from collections import Counter
 
-def question1(string, test):
-    """Test if all charaters in test string are contained in given string.
+def question1(s, t):
+    """Test if the substring of a string s is an anagram of string t.
 
     Args:
-        string (str): The string that contains the substring.
-        test (str): The string that is the anagram of the substring.
+        s (str): The string that contains the substring.
+        t (str): The string that is the anagram of the substring.
 
     Returns:
-        bool.
-
+        bool
     """
 
-    s_count = Counter(string)
-    t_count = Counter(test)
-    s_count.subtract(t_count)
-    for count in s_count.values():
-        if count < 0:
-            return False
-    return True
+    t_len = len(t)
+    for idx in xrange(len(s) - t_len + 1):
+        if Counter(t) == Counter(s[idx:idx+t_len]):
+            return True
+    return False
 
 def question2(string):
     """Finds the longest palindromic substring of a string.
@@ -28,22 +25,21 @@ def question2(string):
 
     Returns:
         str: The longest palindromic substring.
-
     """
 
     length = len(string)
     max_length = 1
     start = 0
     table = [[False for idx in string] for idx in string]
-    for idx in range(length):
+    for idx in xrange(length):
         table[idx][idx] = True
-    for idx in range(length - 1):
+    for idx in xrange(length - 1):
         if string[idx] == string[idx+1]:
             table[idx][idx+1] = True
             start = idx
             max_length = 2
-    for sub_length in range(3, length + 1):
-        for idx in range(length - sub_length + 1):
+    for sub_length in xrange(3, length + 1):
+        for idx in xrange(length - sub_length + 1):
             end = idx + sub_length - 1
             if table[idx+1][end-1] and string[idx] == string[end]:
                 table[idx][end] = True
@@ -60,7 +56,6 @@ def question3(graph):
 
     Returns:
         dict: The minimum spanning tree as adjacency list.
-
     """
 
     picked = {}
@@ -68,14 +63,8 @@ def question3(graph):
     while len(picked) < len(graph):
         edge = edges.pop()
         if edge[1] not in picked or edge[2] not in picked:
-            if edge[1] in picked:
-                picked[edge[1]].append((edge[2], edge[0]))
-            else:
-                picked[edge[1]] = [(edge[2], edge[0])]
-            if edge[2] in picked:
-                picked[edge[2]].append((edge[1], edge[0]))
-            else:
-                picked[edge[2]] = [(edge[1], edge[0])]
+            picked.setdefault(edge[1], []).append((edge[2], edge[0]))
+            picked.setdefault(edge[2], []).append((edge[1], edge[0]))
     return picked
 
 def sort_edges(graph):
@@ -86,7 +75,6 @@ def sort_edges(graph):
 
     Returns:
         list: List of edges sorted by weight in descending order.
-
     """
 
     vertices = graph.keys()
@@ -111,15 +99,12 @@ def question4(tree, root, num1, num2):
 
     Returns:
         int: Integer representing the least common ancestor.
-
     """
 
     if not valid_input(tree, root, num1, num2):
         return None
     if num1 > num2:
-        temp = num1
-        num1 = num2
-        num2 = temp
+        num2, num1 = num1, num2
     return lca_helper(tree, root, num1, num2)
 
 def valid_input(tree, root, num1, num2):
@@ -133,10 +118,10 @@ def valid_input(tree, root, num1, num2):
 
     Returns:
         bool
-
     """
+
     valid = True
-    if not isinstance(tree, list):
+    if tree and not isinstance(tree, list):
         valid = False
     if not root:
         valid = False
@@ -159,7 +144,6 @@ def lca_helper(tree, root, num1, num2):
 
     Returns:
         int: Integer representing the least common ancestor.
-
     """
 
     if num1 < root and num2 > root:
@@ -179,27 +163,26 @@ def lca_helper(tree, root, num1, num2):
     else:
         return lca_helper(tree, right, num1, num2)
 
-def question5(ll_head, ele):
+def question5(ll_head, n):
     """Finds the nth element from the back of a singly linked list.
 
     Args:
         ll_head (Node): Node that is the head of the linked list.
-        ele (int): Denotes the nth element from the back.
+        n (int): Denotes the nth element from the back.
 
     Returns:
         Value of the node at nth number from the end
-
     """
 
-    if not ll_head or not ele or ele == 0:
+    if not ll_head or not n or n == 0:
         return None
-    if not isinstance(ele, int):
+    if not isinstance(n, int):
         return "Error: Second argument must be an integer."
     items = []
     current = ll_head
     while current:
         items.append(current.data)
         current = current.next
-    if ele > len(items):
+    if n > len(items):
         return None
-    return items[len(items)-ele]
+    return items[len(items)-n]

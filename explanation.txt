@@ -1,29 +1,39 @@
 == Question 1: ==
 
-For string t to be constructed using letters in string s,
-the occurrence of each letter in t must not exceed its counterpart
-in s.
-To count the occurrence of letters, I utilize the Counter object.
-If string s contains all letters of string t, after subtracting the 
-letter count of t from letter count of s, there should not be any
-negative counts.
+Originally I wanted to find a solution without testing all possible substrings.
+One approach was to loop through the charaters in t, and replace the same 
+character in string s with a symbol, say "-". At the end of that process, if 
+I can find "-" of length t, I have an anagram substring. However, consider the
+s "mississippi" and t "mpi", the .replace() method would replace all the i's 
+and p's. The result would be "--ss-ss----", with "---" as a substring. But I 
+know that "mpi" is not a substring anagram of "mississippi". I could tell the 
+.replace() method to just replace the first instance of a character. This 
+creates a different problem. Consider again s of "mississippi" but this time 
+with t of "ips". The function will replace the first i, p, and s it finds.
+The result would be "m--sissi-pi" where the three "-" are not connected. But
+I know that "ips" is a substring anagram of "mississippi".
+Without a clever approach, I opted for the naive approach, checking each 
+possible substring of s and see if it is an anagram of t.
 
 Time Complexity:
-n = length of s, m = length of t
-Since the Counter object needs to iterate through the string to 
-count occurrence, each counter would require a linear time operation 
-(O(n+m)). Each operation on a counter element is constant time. The 
-subtract method iterate through elements in the t string counter. So 
-in the worst case, it would be linear time in respect to length of t 
-(O(m)). Finally, to check for negative count, the worst case is that 
-all letters in s are unique (O(n)).
-Combining all the above, the time complexity would be O(2n+2m) which 
-simplifies to O(n+m).
+In the worst case, the function will have to iterate through the entire s 
+string, testing all possible substring of length t. Each test will loop 
+through the substring and t once. The number of possible substrings is 
+s - t + 1. So the time complexity would be O((s-t+1)(2t)).
+Looking at the relationship between s and t, I know that t must be in the 
+range of s and 1. When t = s, I just need to check if the strings are anagrams
+of each other. When t = 1, I just need to check if the single character can be
+found in s.  Both of them are linear time operations. This leads me to believe
+that the worst case would be when t = s/2, where I need to iterate through 
+half of s and check for anagram each time. In which case, the time complexity
+is O(s^2)
 
 Space Complexity:
-The initial input will take n, and m amount of space. If both strings 
-only contains unique letters, each counter will also take linear 
-amount of space. This means the space complexity is also O(n+m).
+From what I understand, the xrange() function in python (range() in python 3)
+does not generate the entire list. It gives one value at each iteration and
+discards the old one after. Therefore the space complexity would be linear
+with respect to s and t, O(s+t). Given that s is the dominating factor, this
+would approximates to O(s).
 
 
 == Question 2: ==
