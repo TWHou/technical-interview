@@ -1,6 +1,17 @@
 from collections import Counter
 
-def questionum1(string, test):
+def question1(string, test):
+    """Test if all charaters in test string are contained in given string.
+
+    Args:
+        string (str): The string that contains the substring.
+        test (str): The string that is the anagram of the substring.
+
+    Returns:
+        bool.
+
+    """
+
     s_count = Counter(string)
     t_count = Counter(test)
     s_count.subtract(t_count)
@@ -9,7 +20,17 @@ def questionum1(string, test):
             return False
     return True
 
-def questionum2(string):
+def question2(string):
+    """Finds the longest palindromic substring of a string.
+
+    Args:
+        string (str): The test string.
+
+    Returns:
+        str: The longest palindromic substring.
+
+    """
+
     length = len(string)
     max_length = 1
     start = 0
@@ -32,6 +53,16 @@ def questionum2(string):
     return string[start:start+max_length]
 
 def question3(graph):
+    """Finds the minimum spanning tree contained in a graph.
+
+    Args:
+        graph (dict): The undirected graph as adjacency list.
+
+    Returns:
+        dict: The minimum spanning tree as adjacency list.
+
+    """
+
     picked = {}
     edges = sort_edges(graph)
     while len(picked) < len(graph):
@@ -48,6 +79,16 @@ def question3(graph):
     return picked
 
 def sort_edges(graph):
+    """Helper function for question3. Sorts all edges in a graph.
+
+    Args:
+        graph (dict): The undirected graph as adjacency list.
+
+    Returns:
+        list: List of edges sorted by weight in descending order.
+
+    """
+
     vertices = graph.keys()
     edges = set()
     for vertex in vertices:
@@ -60,6 +101,19 @@ def sort_edges(graph):
 
 
 def question4(tree, root, num1, num2):
+    """Finds least common ancestor between two nodes of BST.
+
+    Args:
+        tree (list): BST represented by adjacency matrix.
+        root (int): Non-negative integer representing the root .
+        num1 (int): Non-negative integer representing one of the nodes.
+        num2 (int): Non-negative integer representing one of the nodes.
+
+    Returns:
+        int: Integer representing the least common ancestor.
+
+    """
+
     if not valid_input(tree, root, num1, num2):
         return None
     if num1 > num2:
@@ -67,8 +121,20 @@ def question4(tree, root, num1, num2):
         num1 = num2
         num2 = temp
     return lca_helper(tree, root, num1, num2)
-    
+
 def valid_input(tree, root, num1, num2):
+    """Helper function for question4. Make sure inputs are valid.
+
+    Args:
+        tree (list): BST represented by adjacency matrix.
+        root (int): Non-negative integer representing the root .
+        num1 (int): Non-negative integer representing one of the nodes.
+        num2 (int): Non-negative integer representing one of the nodes.
+
+    Returns:
+        bool
+
+    """
     valid = True
     if not isinstance(tree, list):
         valid = False
@@ -83,6 +149,19 @@ def valid_input(tree, root, num1, num2):
     return valid
 
 def lca_helper(tree, root, num1, num2):
+    """Helper function for question4. Recusivly finds least common ancestor.
+
+    Args:
+        tree (list): BST represented by adjacency matrix.
+        root (int): Non-negative integer representing the root .
+        num1 (int): Non-negative integer representing one of the nodes.
+        num2 (int): Non-negative integer representing one of the nodes.
+
+    Returns:
+        int: Integer representing the least common ancestor.
+
+    """
+
     if num1 < root and num2 > root:
         return root
     if num1 == root or num2 == root:
@@ -101,6 +180,17 @@ def lca_helper(tree, root, num1, num2):
         return lca_helper(tree, right, num1, num2)
 
 def question5(ll_head, ele):
+    """Finds the nth element from the back of a singly linked list.
+
+    Args:
+        ll_head (Node): Node that is the head of the linked list.
+        ele (int): Denotes the nth element from the back.
+
+    Returns:
+        Value of the node at nth number from the end
+
+    """
+
     if not ll_head or not ele or ele == 0:
         return None
     if not isinstance(ele, int):
