@@ -94,3 +94,18 @@ def question4(tree, root, n1, n2):
         return question4(tree, left, n1, n2)
     else:
         return question4(tree, right, n1, n2)
+
+def question5(ll, ele):
+    if not ll or not ele or ele == 0:
+        return None
+    if not isinstance(ele, int):
+        return "Error: Second argument must be an integer."
+    items = []
+    current = ll
+    while current:
+        items.append(current.data)
+        current = current.next
+    # ele longer the length of list
+    if ele > len(items):
+        return None
+    return items[len(items)-ele]
